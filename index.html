@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+   <title>Shopping Cart</title>
+   <meta charset="utf-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css" rel="stylesheet" />
+   <link href="style.css" rel="stylesheet">
+</head>
+
+<body>
+
+   <section id="cart-section">
+      <div class="container">
+         <div class="cart">
+            <div class="col-md-12 col-lg-10 mx-auto">
+               <div id="phone-cart" class="cart-item">
+                  <div class="row">
+                     <div class="col-md-7 center-item">
+                        <img src="images/product-1.png" alt="">
+                        <h5>iPhone 11 128GB Black</h5>
+                     </div>
+
+                     <div class="col-md-5 center-item">
+                        <div class="input-group number-spinner">
+                           <button id="phone-minus" class="btn btn-default"><i class="fas fa-minus"></i></button>
+                           <input id="phone-count" type="text" class="form-control text-center" value="1">
+                           <button id="phone-plus" class="btn btn-default"><i class="fas fa-plus"></i></button>
+                        </div>
+                        <h5>$ <span id="phone-balance">1219</span></h5>
+                        <img id="phone-cart-remove" src="images/remove.png" alt="" class="remove-item">
+                     </div>
+                  </div>
+               </div>
+
+               <div id="cover-cart" class="cart-item">
+                  <div class="row">
+                     <div class="col-md-7 center-item mx-auto">
+                        <img src="images/product-2.png" alt="">
+                        <h5>iPhone 11 Silicone Case - Black</h5>
+                     </div>
+                     <div class="col-md-5 center-item">
+                        <div class="input-group number-spinner">
+                           <button id="cover-minus" class="btn btn-default"><i class="fas fa-minus"></i></button>
+                           <input id="cover-count" type="text" class="form-control text-center" value="1">
+                           <button id="cover-plus" class="btn btn-default"><i class="fas fa-plus"></i></button>
+
+                        </div>
+                        <h5>$ <span id="cover-balance">59</span></h5>
+                        <img id="cover-cart-remove" src="images/remove.png" alt="" class="remove-item">
+                     </div>
+                  </div>
+               </div>
+
+               <div class="cart-item">
+                  <div class="row">
+
+                     <div class="col-md-8">
+                        <h5>Subtotal: </h5>
+                        <h5>Tax:</h5>
+                        <h5>Total:</h5>
+                     </div>
+
+                     <div class="col-md-4 status">
+                        <h5>$ <span id="sub-total">1,278</span></h5>
+                        <h5>$ <span id="tax-amount">0</span></h5>
+                        <h5>$ <span id="total-amount">1,278</span></h5>
+                     </div>
+                  </div>
+               </div>
+               <div class="col-md-12 pt-4 pb-4">
+                  <button id="order-check-out" type="button" class="btn btn-success check-out">Check Out</button>
+               </div>
+            </div>
+         </div>
+      </div>
+
+      
+   </section>
+   <div id="order-complete">
+      <h1>Your order is complete</h1>
+   </div>
+
+   <script>
+      function strToNumConvert(string) {
+         const number = parseFloat(string);
+         return number;
+      }
+      function incriseValue(id) {
+         const count = document.getElementById(id).value;
+         const number = parseFloat(count);
+         const total = number + 1;
+         document.getElementById(id).value = total;
+      }
+      function decriseValue(id) {
+         const count = document.getElementById(id).value;
+         const number = parseFloat(count);
+         const total = number - 1;
+         document.getElementById(id).value = total;
+      }
+      function innerText(id, price, txtAmount) {
+         const count = document.getElementById(id).value;
+         const number = parseFloat(count);
+         const  amount = price * number;
+         document.getElementById(txtAmount).innerText = amount;
+      }
+
+      // function subTotalAmount(subTotal, phoneBalance, coverBalance) {
+      //    const subTotal = document.getElementById(subTotal).innerText;
+      //    const subTotalNumber = parseFloat(subTotal);
+      //    const phoneAmount = document.getElementById(phoneBalance).innerText;
+      //    const phoneAmountNumber = parseFloat(phoneAmount);
+      //    const coverAmount = document.getElementById(coverBalance).innerText;
+      //    const coverAmountNumber = parseFloat(coverAmount)
+      //    const subTotalAmount = phoneAmountNumber + coverAmountNumber;
+      //    document.getElementById(subTotal).innerText = subTotalAmount;
+      // }
+
+      // Sub Total Amount
+      
+      // function subTotalAmountValue(subTotal, phoneBalance, coverBalance) {
+      //    const phoneAmountNumber = parseFloat(document.getElementById(phoneBalance).innerText);
+      //    const coverAmountNumber = parseFloat(document.getElementById(coverBalance).innerText)
+      //    const subTotalAmount = phoneAmountNumber + coverAmountNumber;
+      //    document.getElementById(subTotal).innerText = subTotalAmount;
+      // }
+
+      // Tax Amount Value
+      function taxAmountValue(subTotal, tax, taxPercent) {
+         const string = document.getElementById(subTotal).innerText;
+         const number = parseFloat(string);
+         let total = (taxPercent / 100) * number;
+         total = total.toFixed(2);
+         document.getElementById(tax).innerText = total;
+      }
+
+      // Total Amount
+      function totalAmountValue(subTotal, tax, totalAmount) {
+         const subTotalNumber = parseFloat(document.getElementById(subTotal).innerText);
+         const taxAmount = parseFloat(document.getElementById(tax).innerText);
+         const total = subTotalNumber + taxAmount
+         document.getElementById(totalAmount).innerText = total;
+      }
+      
+
+      // iPhone 11 128GB Black
+      document.getElementById('phone-plus').addEventListener('click', function() {
+         incriseValue('phone-count')
+         innerText('phone-count', 1219, 'phone-balance' )
+         totalAmountValue('phone-balance', 'cover-balance', 'sub-total')
+         taxAmountValue('sub-total', 'tax-amount', 5)
+         totalAmountValue('sub-total', 'tax-amount', 'total-amount')
+      })
+
+      document.getElementById('phone-minus').addEventListener('click', function() {
+         decriseValue('phone-count')
+         innerText('phone-count', 1219, 'phone-balance')
+         totalAmountValue('phone-balance', 'cover-balance', 'sub-total')
+         taxAmountValue('sub-total', 'tax-amount', 5)
+         totalAmountValue('sub-total', 'tax-amount', 'total-amount')
+      })
+
+      // iPhone 11 Silicone Case - Black
+      document.getElementById('cover-plus').addEventListener('click', function() {
+         incriseValue('cover-count')
+         innerText('cover-count', 59, 'cover-balance')
+         totalAmountValue('phone-balance', 'cover-balance', 'sub-total')
+         taxAmountValue('sub-total', 'tax-amount', 5)
+         totalAmountValue('sub-total', 'tax-amount', 'total-amount')
+      })
+
+      document.getElementById('cover-minus').addEventListener('click', function() {
+         decriseValue('cover-count')
+         innerText('cover-count', 59, 'cover-balance')
+         totalAmountValue('phone-balance', 'cover-balance', 'sub-total')
+         taxAmountValue('sub-total', 'tax-amount', 5)
+         totalAmountValue('sub-total', 'tax-amount', 'total-amount')
+      })
+
+      // Cart Remove sub Total Update
+      function phoneRemove(coverBalance, subTotal) {
+         const amount = parseFloat(document.getElementById(coverBalance).innerText);
+         document.getElementById(subTotal).innerText = amount;
+      }
+
+      // cart remove Tax update
+      function taxUpdate(coverBalance, tax) {
+         const amount = parseFloat(document.getElementById(coverBalance).innerText);
+         let totalAmount = (5 / 100) * amount;
+         totalAmount = totalAmount.toFixed(2)
+         document.getElementById(tax).innerText = totalAmount;
+      }
+
+      // cart Remove Total Amount update
+      function totalAmountUpdate(subTotal, tax, totalAmount) {
+         const a = parseFloat(document.getElementById(subTotal).innerText);
+         const b = parseFloat(document.getElementById(tax).innerText);
+         // const total = a + b;
+         document.getElementById(totalAmount).innerText = a + b;
+      }
+
+      // Phone cart remove
+      document.getElementById('phone-cart-remove').addEventListener('click', function() {
+         document.getElementById('phone-cart').style.display = 'none';
+         phoneRemove('cover-balance', 'sub-total')
+         taxUpdate('cover-balance', 'tax-amount')
+         totalAmountUpdate('sub-total', 'tax-amount', 'total-amount')
+      })
+      // Cover cart remove
+      document.getElementById('cover-cart-remove').addEventListener('click', function() {
+         document.getElementById('cover-cart').style.display = "none";
+         phoneRemove('phone-balance', 'sub-total')
+         taxUpdate('phone-balance', 'tax-amount')
+         totalAmountUpdate('sub-total', 'tax-amount', 'total-amount')
+      })
+
+      // Check Out
+      document.getElementById('order-check-out').addEventListener('click', function() {
+         document.getElementById('cart-section').style.display = "none";
+         document.getElementById('order-complete').style.display = "block"
+      })
+   </script>
+</body>
+
+</html>
